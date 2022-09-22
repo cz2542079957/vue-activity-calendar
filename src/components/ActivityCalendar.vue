@@ -49,9 +49,9 @@
 </template>
 
 <script>
-import { onMounted, reactive } from "@vue/runtime-core";
+import { onMounted, reactive } from "vue";
 export default {
-  name: "ActivityCalendar",
+  name: "vue-activity-calendar",
   props: [
     "data",
     "endDate",
@@ -366,7 +366,6 @@ export default {
       if (props.levelFlagText) config.levelFlagText = props.levelFlagText;
       if (props.fontSize) config.fontSize = props.fontSize;
       if (props.clickEvent) config.clickEvent = props.clickEvent;
-      console.log(config.fontSize);
       init();
     });
 

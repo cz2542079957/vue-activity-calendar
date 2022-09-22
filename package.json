@@ -1,13 +1,16 @@
 {
   "name": "activity_calendar",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "lib": "vue-cli-service build --target lib ./src/components/index.js",
+    "package": "vue-cli-service build --target lib ./src/package/index.js --name vue-activity-calendar --dest vue-activity-calendar"
   },
   "dependencies": {
+    "activity_calendar": "file:activity_calendar-0.1.0.tgz",
     "core-js": "^3.8.3",
     "vue": "^3.2.13"
   },
