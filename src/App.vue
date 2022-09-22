@@ -1,5 +1,5 @@
 <template>
-  <ActivityCalendar
+  <vue-activity-calendar
     :data="data"
     :width="40"
     :height="7"

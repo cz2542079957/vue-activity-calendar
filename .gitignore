@@ -2,6 +2,7 @@
 node_modules
 /dist
 src/package
+vue-activity-calendar
 
 
 # local env files
