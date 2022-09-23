@@ -2,7 +2,10 @@
     本组件是面向Vue开发者的，一款类似于GitHub贡献日历图表的组件。
     
     它具有高自由度，您可以将它用于显示类似贡献图的日历图表。
+![](https://img-blog.csdnimg.cn/b29215f31bbe4872a2e77085310792fa.png)
+
 # 使用方式
+
 本组件需要在Vue3上运行，使用方式：
 ``` bash
     npm install vue-activity-calendar
@@ -29,8 +32,7 @@ App.vue
     :cellLength="20"
     :cellInterval="10"
     :colors="colors"
-    :cellBorderRadius="4"
-    :clickEvent="f"
+    :cellBorderRadius="4" 
     :fontSize="12"
     :showLevelFlag="false"
   />
