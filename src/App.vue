@@ -1,5 +1,5 @@
 <template>
-  <vue-activity-calendar
+  <ActivityCalendar
     :data="data"
     :width="40"
     :height="7"
@@ -8,8 +8,7 @@
     :colors="colors"
     :cellBorderRadius="4"
     :clickEvent="f"
-    :fontSize="12"
-    :showLevelFlag="false"
+    :fontSize="12" 
   />
 </template>
 
