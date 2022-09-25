@@ -1,12 +1,17 @@
 {
   "name": "vue-activity-calendar",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "一款易用的、高自由度的类似GitHub活跃度日历的图表组件",
   "main": "vue-activity-calendar.common.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "private": false,
+  "keywords": [
+    "activity",
+    "calendar"
+  ],
   "author": "13东月关",
-  "license": "ISC"
+  "license": "MIT",
+  "homepage": "https://github.com/cz2542079957/vue-activity-calendar"
 }

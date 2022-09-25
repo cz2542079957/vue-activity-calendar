@@ -60,21 +60,22 @@ App.vue
 | `showLevelFlag`      | `Boolean` | **默认true**. 是否显示颜色层级示意图（显示于右下方） |
 | `levelFlagText` | `Array` | **可自定义**. 颜色层级示意图的两侧的文字，需要一个长度为2的字符串数组 |
 | `fontSize`      | `Number` | **默认12**. 文字大小，单位px |
+| `fontColor`      | `String` | **默认#080808**. 文字颜色 |
 | `clickEvent`      | `Funciton` | **可自定义**. 单元格点击事件回调函数 | 
 
 以下是levelMapper的默认函数，仅作为参考，作者建议：colors传入颜色十六进制字符串数组，假设长度为8，也就是分为8个活跃度层级，那么levelMapper应当设置8个条件分支，根据count分配等级，返回值就是colors数组的索引值index
 ```javascript
 function levelMapper(count) {
   if (count < 2) {
-    return 0;
+    return 0
   } else if (count < 4) {
-    return 1;
+    return 1
   } else if (count < 6) {
-    return 2;
+    return 2
   } else if (count < 9) {
-    return 3;
+    return 3
   } else {
-    return 4;
+    return 4
   }
 }
 ```
