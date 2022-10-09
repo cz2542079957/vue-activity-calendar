@@ -1,6 +1,7 @@
 <template>
   <ActivityCalendar
     :data="data"
+    endDate="2022-10-05"
     :width="40"
     :height="7"
     :cellLength="20"
@@ -13,7 +14,7 @@
 </template>
 
 <script>
-import ActivityCalendar from "./components/ActivityCalendar";
+import ActivityCalendar from "./package/vue-activity-calendar/ActivityCalendar";
 export default {
   name: "App",
   components: {
