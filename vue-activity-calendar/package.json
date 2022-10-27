@@ -1,6 +1,6 @@
 {
   "name": "vue-activity-calendar",
-  "version": "1.1.0",
+  "version": "1.1.3",
   "description": "一款易用的、高自由度的类似GitHub活跃度日历的图表组件",
   "main": "vue-activity-calendar.common.js",
   "scripts": {

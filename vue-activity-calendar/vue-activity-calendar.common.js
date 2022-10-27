@@ -232,6 +232,22 @@ module.exports = function (key, value) {
 
 /***/ }),
 
+/***/ 5117:
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+"use strict";
+
+var tryToString = __webpack_require__(6330);
+
+var $TypeError = TypeError;
+
+module.exports = function (O, P) {
+  if (!delete O[P]) throw $TypeError('Cannot delete property ' + tryToString(P) + ' of ' + tryToString(O));
+};
+
+
+/***/ }),
+
 /***/ 9781:
 /***/ (function(module, __unused_webpack_exports, __webpack_require__) {
 
@@ -1484,6 +1500,57 @@ $({ target: 'Array', proto: true, arity: 1, forced: INCORRECT_TO_LENGTH || SILEN
 
 /***/ }),
 
+/***/ 541:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__(2109);
+var toObject = __webpack_require__(7908);
+var lengthOfArrayLike = __webpack_require__(6244);
+var setArrayLength = __webpack_require__(3658);
+var deletePropertyOrThrow = __webpack_require__(5117);
+var doesNotExceedSafeInteger = __webpack_require__(7207);
+
+// IE8-
+var INCORRECT_RESULT = [].unshift(0) !== 1;
+
+// V8 ~ Chrome < 71 and Safari <= 15.4, FF < 23 throws InternalError
+var SILENT_ON_NON_WRITABLE_LENGTH = !function () {
+  try {
+    // eslint-disable-next-line es-x/no-object-defineproperty -- safe
+    Object.defineProperty([], 'length', { writable: false }).unshift();
+  } catch (error) {
+    return error instanceof TypeError;
+  }
+}();
+
+// `Array.prototype.unshift` method
+// https://tc39.es/ecma262/#sec-array.prototype.unshift
+$({ target: 'Array', proto: true, arity: 1, forced: INCORRECT_RESULT || SILENT_ON_NON_WRITABLE_LENGTH }, {
+  // eslint-disable-next-line no-unused-vars -- required for `.length`
+  unshift: function unshift(item) {
+    var O = toObject(this);
+    var len = lengthOfArrayLike(O);
+    var argCount = arguments.length;
+    if (argCount) {
+      doesNotExceedSafeInteger(len + argCount);
+      var k = len;
+      while (k--) {
+        var to = k + argCount;
+        if (k in O) O[to] = O[k];
+        else deletePropertyOrThrow(O, to);
+      }
+      for (var j = 0; j < argCount; j++) {
+        O[j] = arguments[j];
+      }
+    } return setArrayLength(O, len + argCount);
+  }
+});
+
+
+/***/ }),
+
 /***/ 89:
 /***/ (function(__unused_webpack_module, exports) {
 
@@ -1590,6 +1657,7 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
+  "ActivityCalendar": function() { return /* reexport */ ActivityCalendar; },
   "default": function() { return /* binding */ entry_lib; }
 });
 
@@ -1612,87 +1680,78 @@ if (typeof window !== 'undefined') {
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.push.js
 var es_array_push = __webpack_require__(7658);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.unshift.js
+var es_array_unshift = __webpack_require__(541);
 ;// CONCATENATED MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject = require("vue");
-;// CONCATENATED MODULE: ./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-41.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./src/package/vue-activity-calendar/ActivityCalendar.vue?vue&type=script&lang=ts&setup=true&name=vue-activity-calendar
+;// CONCATENATED MODULE: ./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-41.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./src/package/src/ActivityCalendar.vue?vue&type=script&lang=ts&setup=true&name=ActivityCalendar
 
 
 
 
-const _withScopeId = n => (_pushScopeId("data-v-3f6f410e"), n = n(), _popScopeId(), n);
+
+const _withScopeId = n => (_pushScopeId("data-v-76387b00"), n = n(), _popScopeId(), n);
 
 const _hoisted_1 = {
   class: "activityCalendar"
 };
-const _hoisted_2 = ["onClick"];
+const _hoisted_2 = {
+  class: "left"
+};
 const _hoisted_3 = {
+  class: "right"
+};
+const _hoisted_4 = ["onClick"];
+const _hoisted_5 = {
   class: "levelFlagContent"
 };
 
-/* harmony default export */ var ActivityCalendarvue_type_script_lang_ts_setup_true_name_vue_activity_calendar = (/*#__PURE__*/(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.defineComponent)({
-  __name: 'ActivityCalendar',
+const __default__ = {
+  name: "ActivityCalendar"
+};
+/* harmony default export */ var ActivityCalendarvue_type_script_lang_ts_setup_true_name_ActivityCalendar = (/*#__PURE__*/(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.defineComponent)({ ...__default__,
   props: {
-    data: {
-      default: null
-    },
-    endDate: {
-      default: null
-    },
-    width: {
-      default: 35
-    },
-    height: {
-      default: 7
-    },
-    cellLength: {
-      default: 16
-    },
-    cellInterval: {
-      default: 6
-    },
-    cellBorderRadius: {
-      default: 3
-    },
-    header: {
-      default: null
-    },
+    data: null,
+    endDate: null,
+    width: null,
+    height: null,
+    cellLength: null,
+    cellInterval: null,
+    cellBorderRadius: null,
+    header: null,
     showHeader: {
-      type: Boolean,
-      default: true
+      type: Boolean
     },
-    backgroundColor: {
-      default: null
+    backgroundColor: null,
+    colors: null,
+    showWeekDayFlag: {
+      type: Boolean
     },
-    colors: {
-      default: null
-    },
-    levelMapper: {
-      type: [Function, null],
-      default: null
-    },
+    weekDayFlagText: null,
+    levelMapper: null,
     showLevelFlag: {
-      type: Boolean,
-      default: true
+      type: Boolean
     },
     levelFlagText: null,
-    fontSize: {
-      default: 12
-    },
-    fontColor: {
-      default: null
-    },
-    clickEvent: {
-      type: [Function, null],
-      default: null
-    },
+    fontSize: null,
+    fontColor: null,
+    clickEvent: null,
     beginDate: null,
     levels: null,
-    headerLength: null
+    headerLength: null,
+    weekDayFlagLength: null
   },
 
   setup(__props) {
-    const props = __props; //接收的数据
-
+    const props = __props;
+    var propsChange = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.computed)(() => {
+      return props;
+    });
+    (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.watch)(propsChange, (nv, ov) => {
+      init();
+    }, {
+      deep: true
+    });
     var data = [];
     const config = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.reactive)({
       data: [],
@@ -1720,6 +1779,12 @@ const _hoisted_3 = {
       backgroundColor: "#ffffff",
       //颜色数组，用于指定不同活跃level的颜色
       colors: ["#f5f5f5", "#ebfaff", "#e5f9ff", "#c7f1ff", "#86e0fe", "#3ecefe"],
+      //是否显示左侧的星期标志
+      showWeekDayFlag: true,
+      //自定义左侧星期标志
+      weekDayFlagText: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      //weekFlag占位高度，不接受指定
+      weekDayFlagLength: [],
       //与颜色数组同步，代表颜色数组长度
       levels: 6,
       //颜色映射表，可自定义颜色与count的关系
@@ -1750,12 +1815,17 @@ const _hoisted_3 = {
         return "left:" + month.length + "px;" + "font-size: " + config.fontSize + "px;" + "color: " + config.fontColor;
       },
 
-      content() {
-        return "grid-template-columns: repeat(" + config.width + "," + (config.cellLength + config.cellInterval / 2) + "px);" + "grid-template-rows: repeat(" + config.height + "," + (config.cellLength + config.cellInterval / 2) + "px);" + "background-color:" + config.backgroundColor;
+      weekDay(weekDay) {
+        return "top:" + weekDay.length + "px;" + "font-size: " + (config.fontSize - 2) + "px;" + "color: " + config.fontColor;
       },
 
-      item(i) {
-        return "width:" + config.cellLength + "px; background-color:" + config.colors[config.levelMapper(i)] + ";" + "border-radius:" + config.cellBorderRadius + "px;";
+      content() {
+        return "grid-template-columns: repeat(" + (config.width + 1) + //加一的原因是为了对上星期，单元格发生了一定的位移，这时候可能会多出一列
+        "," + (config.cellLength + config.cellInterval / 2) + "px);" + "grid-template-rows: repeat(" + config.height + "," + (config.cellLength + config.cellInterval / 2) + "px);" + "background-color:" + config.backgroundColor;
+      },
+
+      item(varitem) {
+        return "width:" + config.cellLength + "px; height:" + config.cellLength + "px; background-color:" + config?.colors[config.levelMapper ? config.levelMapper(varitem.count) : 0] + ";" + "border-radius:" + config.cellBorderRadius + "px;" + (varitem.index < 0 ? "visibility: hidden;" : "");
       },
 
       levelFlag() {
@@ -1771,6 +1841,7 @@ const _hoisted_3 = {
     function calculateBeginDate() {
       let tempMonthDay = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
       let tempAll = config.width * config.height;
+      if (!config.endDate) return;
       let tempYMD = config.endDate.split("-");
       let endY = Number(tempYMD[0]) - 0,
           endM = Number(tempYMD[1]) - 0,
@@ -1809,16 +1880,24 @@ const _hoisted_3 = {
 
 
     function dataProcessor() {
+      if (!data) return; //根据日期排序
+
       data.sort((a, b) => {
         if (a.date > b.date) return 1;else if (a.date < b.date) return -1;else return 0;
-      });
-      let tempMonthDay = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-      let tempAll = config.width * config.height;
-      let tempCount = 0;
+      }); //保存月份天数
+
+      let tempMonthDay = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]; //保存表格最大容纳单元格数
+
+      let tempAll = config.width * config.height; //保存当前处理的单元格数
+
+      let tempCount = 0; //保存起始日期的 年 月 日
+
+      if (!config.beginDate) return;
       let tempYMD = config.beginDate.split("-");
       let nowY = Number(tempYMD[0]) - 0,
           nowM = Number(tempYMD[1]) - 0,
-          nowD = Number(tempYMD[2]) - 0;
+          nowD = Number(tempYMD[2]) - 0; //更新平年闰年月份天数表
+
       if (nowY % 4 == 0 && nowY % 100 != 0 || nowY % 400 == 0) tempMonthDay[2] = 29; //开始日期不算，向后推一天
 
       nowD++;
@@ -1871,14 +1950,40 @@ const _hoisted_3 = {
           } //跟随月份，header也增加相应的表头
 
 
-          config.headerLength.push({
-            length: (config.cellLength + config.cellInterval / 2) * (tempCount / config.height),
-            text: config.header[nowM - 1]
+          if (config.headerLength) {
+            config.headerLength.push({
+              length: (config.cellLength + config.cellInterval / 2) * (tempCount / config.height),
+              text: config.header[nowM - 1]
+            });
+          }
+        }
+      } //结束日期的星期 并且空格填充偏移量，为了让endDate在对的日期上
+
+
+      let endWeekDay = new Date(nowY + "-" + nowM + "-" + (nowD - 1)).getDay();
+
+      for (let i = 0; i < endWeekDay; i++) tempArray.unshift({
+        index: i - endWeekDay,
+        date: "",
+        count: 0
+      });
+
+      config.data = tempArray; //显示星期标志
+
+      if (config.showWeekDayFlag && config.weekDayFlagText) {
+        //长度超过7，截取前7个
+        if (config.weekDayFlagText.length > 7) {
+          config.weekDayFlagText = config.weekDayFlagText.slice(0, 7);
+        }
+
+        for (let i = 0; i < config.height; i++) {
+          if (i % 2 != 0) continue;
+          config.weekDayFlagLength.push({
+            length: config.fontSize * 4 / 2 + 20 + config.cellInterval + i * (config.cellLength + config.cellInterval / 2),
+            text: config.weekDayFlagText[i % 7]
           });
         }
       }
-
-      config.data = tempArray;
     } //数据初始化
 
 
@@ -1894,9 +1999,11 @@ const _hoisted_3 = {
       if (props.cellInterval) config.cellInterval = props.cellInterval;
       if (props.cellBorderRadius) config.cellBorderRadius = props.cellBorderRadius;
       if (props.header) config.header = props.header;
-      if (typeof props.showHeader != "undefined") config.showHeader = props.showHeader;
+      if (props.showHeader) config.showHeader = props.showHeader;
       if (props.backgroundColor) config.backgroundColor = props.backgroundColor;
       if (props.colors) config.colors = props.colors;
+      if (typeof props.showWeekDayFlag != "undefined") config.showWeekDayFlag = props.showWeekDayFlag;
+      if (props.weekDayFlagText) config.weekDayFlagText = props.weekDayFlagText;
       if (props.levelMapper) config.levelMapper = props.levelMapper;
       if (typeof props.showLevelFlag != "undefined") config.showLevelFlag = props.showLevelFlag;
       if (props.levelFlagText) config.levelFlagText = props.levelFlagText;
@@ -1905,24 +2012,20 @@ const _hoisted_3 = {
       if (props.clickEvent) config.clickEvent = props.clickEvent;
       calculateBeginDate();
       dataProcessor();
-    } //为了解决props异步响应式丢失的问题
+    }
 
-
-    var propsChange = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.computed)(() => {
-      return props;
-    });
-    (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.watch)(propsChange, (nv, ov) => {
-      init();
-    }, {
-      deep: true
-    });
     (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.onMounted)(() => {
       (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.nextTick)(() => {
         init();
       });
     });
     return (_ctx, _cache) => {
-      return (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("div", _hoisted_1, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withDirectives)((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
+      return (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("div", _hoisted_1, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withDirectives)((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_2, [((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(true), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)(external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.Fragment, null, (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.renderList)(config.weekDayFlagLength, (weekDay, index) => {
+        return (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("div", {
+          key: index,
+          style: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeStyle)(style.weekDay(weekDay))
+        }, (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(weekDay.text), 5);
+      }), 128))], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.vShow, config.showWeekDayFlag]]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_3, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withDirectives)((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
         class: "header",
         style: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeStyle)('height:' + config.fontSize + 'px;')
       }, [((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(true), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)(external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.Fragment, null, (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.renderList)(config.headerLength, (month, index) => {
@@ -1937,12 +2040,12 @@ const _hoisted_3 = {
         return (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("div", {
           class: "item",
           key: index,
-          style: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeStyle)(style.item(item.count)),
-          onClick: $event => config.clickEvent(item)
-        }, null, 12, _hoisted_2);
-      }), 128))], 4), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withDirectives)((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_3, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
+          style: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeStyle)(style.item(item)),
+          onClick: $event => config.clickEvent ? config.clickEvent(item) : null
+        }, null, 12, _hoisted_4);
+      }), 128))], 4), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withDirectives)((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_5, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
         style: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeStyle)('font-size:' + config.fontSize + 'px;' + 'color: ' + config.fontColor)
-      }, (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(config.levelFlagText[0]), 5), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
+      }, (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(config.levelFlagText ? config.levelFlagText[0] : ""), 5), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
         class: "levelFlag",
         style: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeStyle)(style.levelFlag())
       }, [((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(true), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)(external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.Fragment, null, (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.renderList)(config.colors, (i, index) => {
@@ -1952,38 +2055,43 @@ const _hoisted_3 = {
         }, null, 4);
       }), 128))], 4), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
         style: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeStyle)('font-size:' + config.fontSize + 'px;' + 'color: ' + config.fontColor)
-      }, (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(config.levelFlagText[1]), 5)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.vShow, config.showLevelFlag]])]);
+      }, (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(config.levelFlagText ? config.levelFlagText[1] : ""), 5)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.vShow, config.showLevelFlag]])])]);
     };
   }
 
 }));
-;// CONCATENATED MODULE: ./src/package/vue-activity-calendar/ActivityCalendar.vue?vue&type=script&lang=ts&setup=true&name=vue-activity-calendar
+;// CONCATENATED MODULE: ./src/package/src/ActivityCalendar.vue?vue&type=script&lang=ts&setup=true&name=ActivityCalendar
  
-;// CONCATENATED MODULE: ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-22.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-22.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-22.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-22.use[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./src/package/vue-activity-calendar/ActivityCalendar.vue?vue&type=style&index=0&id=3f6f410e&scoped=true&lang=scss
+;// CONCATENATED MODULE: ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-22.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-22.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-22.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-22.use[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./src/package/src/ActivityCalendar.vue?vue&type=style&index=0&id=76387b00&scoped=true&lang=scss
 // extracted by mini-css-extract-plugin
 
-;// CONCATENATED MODULE: ./src/package/vue-activity-calendar/ActivityCalendar.vue?vue&type=style&index=0&id=3f6f410e&scoped=true&lang=scss
+;// CONCATENATED MODULE: ./src/package/src/ActivityCalendar.vue?vue&type=style&index=0&id=76387b00&scoped=true&lang=scss
 
 // EXTERNAL MODULE: ./node_modules/vue-loader/dist/exportHelper.js
 var exportHelper = __webpack_require__(89);
-;// CONCATENATED MODULE: ./src/package/vue-activity-calendar/ActivityCalendar.vue
+;// CONCATENATED MODULE: ./src/package/src/ActivityCalendar.vue
 
 
 
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,exportHelper/* default */.Z)(ActivityCalendarvue_type_script_lang_ts_setup_true_name_vue_activity_calendar, [['__scopeId',"data-v-3f6f410e"]])
+const __exports__ = /*#__PURE__*/(0,exportHelper/* default */.Z)(ActivityCalendarvue_type_script_lang_ts_setup_true_name_ActivityCalendar, [['__scopeId',"data-v-76387b00"]])
 
 /* harmony default export */ var ActivityCalendar = (__exports__);
 ;// CONCATENATED MODULE: ./src/package/index.js
 
 
 const install = function (app) {
+  if (install.installed) return; //安装组件
+
   app.component(ActivityCalendar.name, ActivityCalendar);
 };
 
-/* harmony default export */ var src_package = (install);
+
+/* harmony default export */ var src_package = ({
+  install
+});
 ;// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib.js
 
 

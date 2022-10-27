@@ -1,25 +1,25 @@
 <template>
-  <ActivityCalendar
-    :data="data"
-    endDate="2022-10-05"
-    :width="40"
-    :height="7"
-    :cellLength="20"
-    :cellInterval="10"
-    :colors="colors"
-    :cellBorderRadius="4"
-    :clickEvent="f"
-    :fontSize="12"
-  />
+  <div>
+    <ActivityCalendar
+      :data="data"
+      endDate="2022-10-05"
+      :width="40"
+      :height="7"
+      :cellLength="20"
+      :cellInterval="10"
+      :colors="colors"
+      :cellBorderRadius="4"
+      :showWeekDayFlag="true"
+      :clickEvent="f"
+      :fontSize="16"
+    />
+  </div>
+
 </template>
 
 <script>
-import ActivityCalendar from "./package/vue-activity-calendar/ActivityCalendar";
 export default {
   name: "App",
-  components: {
-    ActivityCalendar,
-  },
   setup() {
     return {
       data: [
